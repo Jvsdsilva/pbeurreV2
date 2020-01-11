@@ -1,9 +1,8 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-__init__.py
 *.py[cod]
 *$py.class
-.pytest_cache
+.vscode
 # C extensions
 *.so
 
@@ -21,6 +20,8 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -39,12 +40,14 @@ pip-delete-this-directory.txt
 # Unit test / coverage reports
 htmlcov/
 .tox/
+.nox/
 .coverage
 .coverage.*
 .cache
 nosetests.xml
 coverage.xml
 *.cover
+*.py,cover
 .hypothesis/
 .pytest_cache/
 
@@ -56,6 +59,7 @@ coverage.xml
 *.log
 local_settings.py
 db.sqlite3
+db.sqlite3-journal
 
 # Flask stuff:
 instance/
@@ -73,11 +77,26 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# IPython
+profile_default/
+ipython_config.py
+
 # pyenv
 .python-version
 
-# celery beat schedule file
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
 celerybeat-schedule
+celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
@@ -90,8 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.vscode
-settings.py
+
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -99,12 +117,20 @@ settings.py
 # Rope project settings
 .ropeproject
 
-
 # mkdocs documentation
 /site
 
 # mypy
 .mypy_cache/
+.dmypy.json
+dmypy.json
 
+# Pyre type checker
+.pyre/
+env/
+pbeurre/__pycache__
+aliments/__pycache__/
+aliments/migrations/__pycache__/
 pbeurre/settings/production.py
-pbeurre/staticfiles
+__pycache__
+pbeurre/staticfiles/
