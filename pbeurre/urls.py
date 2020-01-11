@@ -30,6 +30,8 @@ urlpatterns = [
     url(r'^$', views.index,),
     url(r'^aliments/', include('aliments.urls')),
     url(r'^content/', admin.site.urls),
+    url(r'^aliments/', include('django.contrib.auth.urls')),
+    url(r'^accounts/', include('aliments.urls')),
 ]
 
 if settings.DEBUG:
