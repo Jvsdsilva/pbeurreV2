@@ -24,11 +24,14 @@
                     <input class = "invisible" name="id" value={{id}} form="foodsaveform">
                     </div>
                     <div class="portfolio-box-caption" id="box_foodsave">
-                        <div class="project-category text-white-50">
-                            <p> Score : {{nutritionGrade}}</p>
-                        </div>
-                        <div class="project-category text-white-50">
-                            <p> Ingredients: {{descriptionAlim}}</p>
+                        <p id= "details_results" >{{result.nutritionGrade}}</p>
+                        <div class="portfolio-box-caption">
+                            <div class="project-category text-white-50">
+                                {{result.nutritionGrade}}
+                            </div>
+                            <div class="project-name Produit">
+                                {{result.nameAlim}}
+                            </div>
                         </div>
                         {% if user.is_authenticated %}
                         <div class="input-group-append" id="btn_foodsave">
