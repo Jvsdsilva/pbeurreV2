@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'aliments.apps.AlimentsConfig',
+    'aliments.apps.alimentsConfig',
     'crispy_forms',
 ]
 
