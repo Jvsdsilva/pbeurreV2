@@ -90,7 +90,7 @@ DATABASES = {
         'USER': 'postgres', # attention : remplacez par votre nom d'utilisateur !!
         'PASSWORD': '1234',
         'HOST': '',
-        'PORT': '5433',
+        'PORT': '5432',
         'ATOMIC_REQUESTS': True,
     }
 }
@@ -139,3 +139,5 @@ STATIC_URL = '/static/'
 INTERNAL_IPS = ['127.0.0.1']
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+LOGIN_REDIRECT_URL = '../../aliments/aliment'

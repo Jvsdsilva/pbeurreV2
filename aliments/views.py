@@ -4,50 +4,76 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from .forms import RegistrationForm
 from django import forms
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from .models import Products
-from .models import Foodsave
+from aliments.models import Products
+from aliments.models import Foodsave
 from aliments import dbInsert
 from aliments import dbRequests
 from django.contrib.auth.models import User
 from django.db import transaction
-from .models import Category
-from .models import Store
-from .models import Products
+from aliments.models import Category
+from aliments.models import Store
+from aliments.models import Products
+import logging
+from django.urls import reverse
+
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 
 # go to home
 def index(request):
+    logger.info('index', exc_info=True, extra={
+        # Optionally pass a request and we'll grab any information we can
+        'request': request,
+    })
 
-    cat = Category.objects.all()
-    if cat.exists():
-        print("exist")
-    else:
-        dbInsert.insertCategory()
+    try:
+        cat = Category.objects.all()
 
-        store = Store.objects.all()
-        if store.exists():
-            print("exist")
+        if cat.exists():
+            logger.info("Table category not empty")
         else:
-            dbInsert.insertStore()
-            products = Products.objects.all()
-            if products.exists():
-                print("exist")
+            dbInsert.insertCategory()
+
+            store = Store.objects.all()
+            if store.exists():
+                logger.info("Table store not empty")
             else:
-                dbInsert.insertProducts()
+                dbInsert.insertStore()
+
+                products = Products.objects.all()
+                if products.exists():
+                    logger.info("Table products not empty")
+                else:
+                    dbInsert.insertProducts()
+        logger.info("Data insert into db")
+    except Exception:
+        logging.exception(
+            "We get some problems with data insert into db")
+
     template = loader.get_template('aliments/index.html')
     return HttpResponse(template.render(request=request))
 
 
 # loged in
 def login(request):
-    template = loader.get_template('aliments/user.html')
+    logger.info('login', exc_info=True, extra={
+        # Optionally pass a request and we'll grab any information we can
+        'request': request,
+    })
+    template = loader.get_template('aliments/login.html')
     return HttpResponse(template.render(request=request))
 
 
 # redirect to user connected page
 def connected(request):
+    logger.info('connected', exc_info=True, extra={
+        # Optionally pass a request and we'll grab any information we can
+        'request': request,
+    })
     template = loader.get_template('aliments/aliments.html')
     return HttpResponse(template.render(request=request))
 
@@ -75,10 +101,17 @@ def signup(request):
 
 # request results
 def results(request):
+
+    logger.info('results', exc_info=True, extra={
+        # Optionally pass a request and we'll grab any information we can
+        'request': request,
+    })
+
     result_res = []
     query_index = ""
     query = ""
     query_nav = ""
+    search = ""
 
     if request.method == "POST":
         search = request.POST.get('searchbtn')
@@ -89,7 +122,7 @@ def results(request):
                 query_nav = query_nav
             else:
                 query_nav = ""
-    
+
     if search == 'searchbtn' or query_nav != "":
         if search == 'searchbtn':
             query_index = request.POST['query_index']
@@ -100,8 +133,17 @@ def results(request):
 
             if query_nav != "":
                 query = query_nav
+            try:
+                results = dbInsert.get_Results(query)
+                logger.info('get results', exc_info=True, extra={
+                    # Optionally pass a request and we'll grab any information
+                    # we can
+                    'request': results,
+                })
+            except Exception:
+                logging.exception(
+                    "We get some problems with request results: ")
 
-            results = dbInsert.get_Results(query)
         else:
             text = "Veiullez saisir un produit"
             return render(request, 'aliments/index.html', {'text': text})
@@ -120,12 +162,25 @@ def results(request):
                 result_res.append(contexts)
 
             return render(request, 'aliments/results.html',
-                         {'results': result_res})
+                          {'results': result_res})
 
 
 # redirect to page details for a specific product
 def results_details(request, pk):
-    obj_aliment = Products.objects.get(pk=pk)
+    logger.info('results_details', exc_info=True, extra={
+        # Optionally pass a request and we'll grab any information we can
+        'request': request,
+    })
+
+    try:
+        obj_aliment = Products.objects.get(pk=pk)
+        logger.info('get results details', exc_info=True, extra={
+            # Optionally pass a request and we'll grab any information we can
+            'request': obj_aliment,
+        })
+    except Exception:
+        logging.exception(
+            "We get some problems with request results details: ")
 
     context = {
         'id': obj_aliment.id,
@@ -140,6 +195,10 @@ def results_details(request, pk):
 
 # page of products
 def aliment(request):
+    logger.info('foodsave', exc_info=True, extra={
+        # Optionally pass a request and we'll grab any information we can
+        'request': request,
+    })
 
     foodsave = request.POST.get('foodsavebtn', None)
 
@@ -147,13 +206,37 @@ def aliment(request):
         pk = request.POST['id']
         current_user = request.user
 
-        obj_aliment = Products.objects.get(pk=pk)
+        try:
+            obj_aliment = Products.objects.get(pk=pk)
+            logger.info('get results details', exc_info=True, extra={
+                # Optionally pass a request and we'll grab any information
+                # we can
+                'request': obj_aliment,
+            })
+        except Exception:
+            logging.exception(
+                "We get some problems with request foodsave")
 
         obj_user = User(id=current_user.id)
 
-        dbInsert.insertFoodsave(obj_aliment, obj_user)
+        try:
+            dbInsert.insertFoodsave(obj_aliment, obj_user)
+            logger.info('insert foodsave')
+        except Exception:
+            logging.exception(
+                "We get some problems with insert foodsave")
+
     current_user_id = request.user
-    saved_products = dbInsert.get_saved_products(current_user_id.id)
+
+    try:
+        saved_products = dbInsert.get_saved_products(current_user_id.id)
+        logger.info('get foodsave', exc_info=True, extra={
+            # Optionally pass a request and we'll grab any information we can
+            'request': saved_products,
+        })
+    except Exception:
+        logging.exception(
+            "We get some problems with get foodsave")
 
     if len(saved_products) == 0:
         text = "Vous n'avez pas de produits enregistrées!"

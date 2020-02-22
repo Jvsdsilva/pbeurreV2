@@ -1,15 +1,30 @@
+from django.db import models
 from aliments import dbRequests
 from aliments.models import Category
 from aliments.models import Store
 from aliments.models import Products
 from aliments.models import Foodsave
+import logging
+
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 
 # insert list category into database
 def insertCategory():
     category_list = {}
     cat_list = []
-    request = dbRequests.DbRequests()
+
+    try:
+        request = dbRequests.DbRequests()
+        logger.info('request category', exc_info=True, extra={
+            # Optionally pass a request and we'll grab any information we can
+            'request': request,
+        })
+    except Exception:
+        logging.exception(
+            "We get some problems with request category API: ")
 
     category_list = request.Request_categories()
 
@@ -29,7 +44,15 @@ def insertStore():
     store_list = {}
     sto_list = []
 
-    request = dbRequests.DbRequests()
+    try:
+        request = dbRequests.DbRequests()
+        logger.info('request store', exc_info=True, extra={
+            # Optionally pass a request and we'll grab any information we can
+            'request': request,
+        })
+    except Exception:
+        logging.exception(
+            "We get some problems with request store API: ")
 
     store_list = request.Request_stores()
 
@@ -48,7 +71,15 @@ def insertStore():
 def insertProducts():
     list_prod_obj = []
 
-    request = dbRequests.DbRequests()
+    try:
+        request = dbRequests.DbRequests()
+        logger.info('request products', exc_info=True, extra={
+            # Optionally pass a request and we'll grab any information we can
+            'request': request,
+        })
+    except Exception:
+        logging.exception(
+            "We get some problems with request products API: ")
 
     product_list = request.Request_products()
 
@@ -125,7 +156,7 @@ def get_Results(product):
         obj_prods_by_cat = get_products_by_cat(ob_Product.first().idCategory)
     else:
         obj_prods_by_cat = list()
-    
+
     return(obj_prods_by_cat)
 
 
@@ -169,3 +200,10 @@ def get_saved_products(idUser):
             result_res = list()
 
     return(result_res)
+
+
+# Insert data into database
+if __name__ == "__main__":
+    insertCategory()
+    insertStore()
+    insertProducts()
