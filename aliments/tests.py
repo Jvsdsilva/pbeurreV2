@@ -146,11 +146,11 @@ class CommentFormTest(TestCase):
 
     """def test_change_pass(self):
         self.user = User.objects.get(username="jota")
-        self.assertEquals(self.user.check_password("jota15612"), True)"""
-        """obj_user = RegistrationForm({"postgres",
-                                     "joana@example.com",
-                                     "password1",
-                                     "password2"})
+        self.assertEquals(self.user.check_password("jota15612"), True)
+        obj_user = RegistrationForm({"postgres",
+                                        "joana@example.com",
+                                        "password1",
+                                        "password2"})
 
         self.assertEqual(obj_user['username'], "Joana")
         self.assertEqual(obj_user['email'], "joana@example.com")"""
