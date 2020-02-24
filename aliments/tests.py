@@ -3,10 +3,15 @@ from aliments.models import Category
 from aliments.models import Store
 from aliments.models import Products
 from aliments.models import Foodsave
+from aliments import dbInsert
 from django.urls import reverse
 from django.contrib.auth.models import User
 from .forms import RegistrationForm
 from django.views.generic import TemplateView
+
+from django.test import TestCase
+import httpretty
+import re # native python regex parsing module
 
 
 # creations test
@@ -139,6 +144,17 @@ class CommentFormTest(TestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(len(form.errors), 4)
 
+    """def test_change_pass(self):
+        self.user = User.objects.get(username="jota")
+        self.assertEquals(self.user.check_password("jota15612"), True)"""
+        """obj_user = RegistrationForm({"postgres",
+                                     "joana@example.com",
+                                     "password1",
+                                     "password2"})
+
+        self.assertEqual(obj_user['username'], "Joana")
+        self.assertEqual(obj_user['email'], "joana@example.com")"""
+
 
 class HomeView(TemplateView):
     template_name = 'aliments/index.html'
@@ -202,13 +218,3 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'aliments/signup.html')
 
-"""class CommentFormTest(TestCase):
-
-    def test_change_pass(self):
-        obj_user = RegistrationForm({"postgres",
-                                     "joana@example.com",
-                                     "password1",
-                                     "password2"})
-
-        self.assertEqual(obj_user['username'], "Joana")
-        self.assertEqual(obj_user['email'], "joana@example.com")"""
