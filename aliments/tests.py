@@ -9,10 +9,6 @@ from django.contrib.auth.models import User
 from .forms import RegistrationForm
 from django.views.generic import TemplateView
 
-from django.test import TestCase
-import httpretty
-import re # native python regex parsing module
-
 
 # creations test
 class CategoryTest(TestCase):
