@@ -82,27 +82,32 @@ class CategoryTest(TestCase):
         product_detail = Products.objects.get(id=4)
 
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'aliments/results_details.html')  
+        self.assertTemplateUsed(response, 'aliments/results_details.html')
 
-    """def test_results_POST(self):
+    def test_results_POST(self):
         p = self.create_Products(5)
 
-        response = self.client.post(self.results, {"nameAlim":"Gazpacho",
-                                                   "image":"https://static.openfoodfacts.org/images/products/541/018/803/1072/front_fr.30.200.jpg",
-                                                   "url" : "https://world.openfoodfacts.org/product/5410188031072/gazpacho-alvalle",
-                                                   "descriptionAlim" : "Tomate, poivron, concombre, oignon, huile d'olive extra vierge, eau, vinaigre de vin, sel, ail et jus de citron.",
-                                                   "nutritionGrade": "a",
-                                                   "idCategory": (self.c),
-                                                   "idStore": (self.s)})
+        response = self.client.post(self.results, {"query_nav": "Gazpacho"})
 
-        self.assertEquals(response.status_code, 302)"""
+        self.assertEquals(response.status_code, 200)
+
+    def test_no_results_POST(self):
+        p = self.create_Products(5)
+
+        response = self.client.post(self.results, {"query_nav": "Toast"})
+
+        self.assertEquals(response.status_code, 200)
+        text = "Nous n'avons pas ce produit, veiullez reessayer!"
+
+        self.assertTemplateUsed(response, 'aliments/results.html', text)
 
 
 class CategoryCreateTest(TestCase):
 
     def create_category(self, idCategory="idcategory",
                         nameCategory="namecategory"):
-        return Category.objects.create(idCategory=idCategory, nameCategory=nameCategory)
+        return Category.objects.create(idCategory=idCategory,
+                                       nameCategory=nameCategory)
 
     def test_category_creation(self):
         w = self.create_category()
@@ -112,7 +117,7 @@ class CategoryCreateTest(TestCase):
 
 class StoreCreateTest(TestCase):
 
-    def create_store(self, idStore="idstore", 
+    def create_store(self, idStore="idstore",
                      nameStore="namecstore"):
         return Store.objects.create(idStore=idStore, nameStore=nameStore)
 
@@ -121,14 +126,15 @@ class StoreCreateTest(TestCase):
         self.assertTrue(isinstance(w, Store))
         self.assertEqual(w.__str__(), w.nameStore)
 
+
 # form test
 class CommentFormTest(TestCase):
 
     def test_valid_data(self):
-        form = RegistrationForm(data={"username" : "jspurbeurre",
-                                      "email" : "purbeurre@example.com",
-                                      "password1" : "pass1234.",
-                                      "password2" : "pass1234."
+        form = RegistrationForm(data={"username": "jspurbeurre",
+                                      "email": "purbeurre@example.com",
+                                      "password1": "pass1234.",
+                                      "password2": "pass1234."
                                       })
 
         self.assertTrue(form.is_valid())
@@ -146,6 +152,7 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         kwargs['environment'] = 'Production'
         return super().get_context_data(**kwargs)
+
 
 # views test
 class TestViews(TestCase):
@@ -201,14 +208,3 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'aliments/signup.html')
-
-"""class CommentFormTest(TestCase):
-
-    def test_change_pass(self):
-        obj_user = RegistrationForm({"postgres",
-                                     "joana@example.com",
-                                     "password1",
-                                     "password2"})
-
-        self.assertEqual(obj_user['username'], "Joana")
-        self.assertEqual(obj_user['email'], "joana@example.com")"""

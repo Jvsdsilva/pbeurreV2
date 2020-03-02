@@ -85,16 +85,15 @@ WSGI_APPLICATION = 'pbeurre.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
-        'NAME': 'pbeurre', # le nom de notre base de données créée précédemment
-        'USER': 'postgres', # attention : remplacez par votre nom d'utilisateur !!
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pbeurre',
+        'USER': 'postgres',
         'PASSWORD': '1234',
         'HOST': '',
         'PORT': '5432',
         'ATOMIC_REQUESTS': True,
     }
 }
-
 
 
 # Password validation
@@ -138,9 +137,10 @@ STATIC_URL = '/static/'
 # Django debug toolbar
 INTERNAL_IPS = ['127.0.0.1']
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_REDIRECT_URL = '../../aliments/aliment'
+
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
