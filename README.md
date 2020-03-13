@@ -4,7 +4,7 @@ This project aims to create a web page that will allow you to query the "Open fo
 ### How to start:
 ```
     Step 1: Go to browser
-        Go to the link : https://jspurbeurre.herokuapp.com/
+        Go to the link : https://54.38.188.6:8282/
     Step 2: You need to connect to save the products.
     Step 3: Type a product and click search.
     Step 4: Click under the product that you want to kwon the details.
