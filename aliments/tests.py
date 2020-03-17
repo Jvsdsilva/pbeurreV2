@@ -95,7 +95,7 @@ class CategoryTest(TestCase):
         p = self.create_Products(5)
 
         response = self.client.post(self.results, {"query_nav": "Toast"})
-        
+
         self.assertEquals(response.status_code, 200)
         text = "Nous n'avons pas ce produit, veiullez reessayer!"
 
