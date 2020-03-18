@@ -257,5 +257,5 @@ class TestTestpass():
         self.driver.find_element(By.ID, "id_username").send_keys("admin")
         self.driver.find_element(By.ID, "id_password").click()
         self.driver.find_element(By.ID, "id_password").send_keys("admin1234")
-        self.driver.find_element(By.CSS_SELECTOR, 
+        self.driver.find_element(By.CSS_SELECTOR,
                                  ".nav-link:nth-child(4) > .btn").click()
