@@ -101,6 +101,7 @@ class CategoryTest(TestCase):
         response = self.client.post(self.results, {"query_nav": "Gazpacho"})
 
         self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'aliments/results.html')
 
     def test_no_results_POST(self):
         p = self.create_Products(5)
@@ -231,15 +232,19 @@ class TestTestpass():
         self.driver.quit()
 
     def test_testpass(self):
+        # url site
         self.driver.get("http://127.0.0.1:8000/")
         self.driver.set_window_size(1936, 1056)
         self.driver.find_element(By.CSS_SELECTOR, ".fa-sign-out-alt").click()
         self.driver.find_element(By.CSS_SELECTOR, ".fa-user").click()
+        # reset password
         self.driver.find_element(By.ID, "reset").click()
         self.driver.find_element(By.ID, "id_email").click()
+        # email sent
         self.driver.find_element(By.ID, "id_email").send_keys(
                                  "jotadevelopper@gmail.com")
         self.driver.find_element(By.CSS_SELECTOR, ".module > input").click()
+        # new password
         self.driver.find_element(By.ID, "id_new_password1").click()
         self.driver.find_element(By.ID, "id_new_password1").send_keys(
                                  "admin1234")
@@ -248,6 +253,7 @@ class TestTestpass():
                                  "admin1234")
         self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(3)").click()
         self.driver.find_element(By.LINK_TEXT, "Connexion").click()
+        # new connection with new password
         self.driver.find_element(By.ID, "id_username").send_keys("admin")
         self.driver.find_element(By.ID, "id_password").click()
         self.driver.find_element(By.ID, "id_password").send_keys("admin1234")
