@@ -125,47 +125,47 @@ def results(request):
             else:
                 query_nav = ""
 
-        if search == 'searchbtn' or query_nav != "":
-            if search == 'searchbtn':
-                query_index = request.POST['query_index']
-            else:
-                query_nav = request.POST['query_nav']
+    if search == 'searchbtn' or query_nav != "":
+        if search == 'searchbtn':
+            query_index = request.POST['query_index']
+        else:
+            query_nav = request.POST['query_nav']
 
-            if query_index != "" or query_nav != "":
-                if query_index != "":
-                    query = query_index
+        if query_index != "" or query_nav != "":
+            if query_index != "":
+                query = query_index
 
-                if query_nav != "":
-                    query = query_nav
-                try:
-                    results = dbInsert.get_Results(query)
-                    logger.info('get results', exc_info=True, extra={
-                        # Optionally pass a request and we'll grab any
-                        # information we can
-                        'request': results,
-                    })
-                except Exception:
-                    logging.exception(
-                        "We get some problems with request results: ")
+            if query_nav != "":
+                query = query_nav
+            try:
+                results = dbInsert.get_Results(query)
+                logger.info('get results', exc_info=True, extra={
+                    # Optionally pass a request and we'll grab any
+                    # information we can
+                    'request': results,
+                })
+            except Exception:
+                logging.exception(
+                    "We get some problems with request results: ")
 
-            else:
-                text = "Veiullez saisir un produit"
-                return render(request, 'aliments/index.html', {'text': text})
+        else:
+            text = "Veiullez saisir un produit"
+            return render(request, 'aliments/index.html', {'text': text})
 
-            if len(results) == 0 or None:
-                text = "Nous n'avons pas ce produit, veiullez reessayer!"
-                return render(request, 'aliments/results.html', {'text': text})
-            else:
-                for result in results:
-                    contexts = {}
-                    contexts['id'] = result.id
-                    contexts['nameAlim'] = result.nameAlim
-                    contexts['image'] = result.image
-                    contexts['nutritionGrade'] = result.nutritionGrade
+        if len(results) == 0 or None:
+            text = "Nous n'avons pas ce produit, veiullez reessayer!"
+            return render(request, 'aliments/results.html', {'text': text})
+        else:
+            for result in results:
+                contexts = {}
+                contexts['id'] = result.id
+                contexts['nameAlim'] = result.nameAlim
+                contexts['image'] = result.image
+                contexts['nutritionGrade'] = result.nutritionGrade
 
-                    result_res.append(contexts)
-                return render(request, 'aliments/results.html',
-                              {'results': result_res})
+                result_res.append(contexts)
+            return render(request, 'aliments/results.html',
+                            {'results': result_res})
 
 
 # redirect to page details for a specific product
