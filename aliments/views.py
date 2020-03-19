@@ -112,7 +112,6 @@ def results(request):
     query = ""
     query_nav = ""
     search = ""
-    searchnav = ""
 
     if request.method == "POST":
         search = request.POST.get('searchbtn')
@@ -120,6 +119,7 @@ def results(request):
 
         if (search is None) or (search != 'searchbtn'):
             query_nav = request.POST['query_nav']
+
             if query_nav != "":
                 query_nav = query_nav
             else:
@@ -140,8 +140,8 @@ def results(request):
             try:
                 results = dbInsert.get_Results(query)
                 logger.info('get results', exc_info=True, extra={
-                    # Optionally pass a request and we'll grab any
-                    # information we can
+                    # Optionally pass a request and we'll grab any information
+                    # we can
                     'request': results,
                 })
             except Exception:
@@ -152,7 +152,7 @@ def results(request):
             text = "Veiullez saisir un produit"
             return render(request, 'aliments/index.html', {'text': text})
 
-        if len(results) == 0 or None:
+        if len(results) == 0:
             text = "Nous n'avons pas ce produit, veiullez reessayer!"
             return render(request, 'aliments/results.html', {'text': text})
         else:
@@ -164,8 +164,9 @@ def results(request):
                 contexts['nutritionGrade'] = result.nutritionGrade
 
                 result_res.append(contexts)
+
             return render(request, 'aliments/results.html',
-                            {'results': result_res})
+                          {'results': result_res})
 
 
 # redirect to page details for a specific product
