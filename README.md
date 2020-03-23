@@ -1,15 +1,18 @@
 # Pur beurre
-This project aims to create a web page that will allow you to query the "Open food facts API" to find a product replacement to your product.
+This project aims to add new functionality to the existing program.
+Possibility for the user to change the password.
 
 ### How to start:
 ```
-    Step 1: Go to browser
-        Go to the link : https://54.38.188.6:8282/
-    Step 2: You need to connect to save the products.
-    Step 3: Type a product and click search.
-    Step 4: Click under the product that you want to know the details.
-    Step 5: Click sur "save" to save your product.
-    Step 6: You can click directly in the carrot to see the products that you have saved.
+    Step 1: Git clone https://github.com/Jvsdsilva/pbeurreV2.git
+    Step 2: Install dependencies
+    Step 3: Launch local server
+    Then...
+    Step 4: You need to connect to save the products.
+    Step 5: Type a product and click search.
+    Step 6: Click under the product that you want to know the details.
+    Step 7: Click sur "save" to save your product.
+    Step 8: You can click directly in the carrot to see the products that you have saved.
 ```
 
 ## Authors
